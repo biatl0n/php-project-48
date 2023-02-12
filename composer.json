@@ -1,0 +1,21 @@
+{
+    "name": "hexlet/code",
+    "description": "difference calculator",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Hexlet\\Code\\": "src/"
+        },
+        "files": ["src/docoptMenu.php"]
+    },
+    "authors": [
+        {
+            "name": "Evgeny",
+            "email": "biatl0n@yandex.ru"
+        }
+    ],
+    "require": {
+        "docopt/docopt": "^1.0"
+    }
+}
