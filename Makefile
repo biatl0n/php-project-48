@@ -1,4 +1,4 @@
 install:
 	composer install
 gendiff:
-	php bin/gendiff
+	php bin/gendiff 
