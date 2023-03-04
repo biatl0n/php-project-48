@@ -1,41 +1,49 @@
 <?php
 
-namespace Gendiff;
+namespace Gendiff\Lib;
 
-function getDiff($file1, $file2)
+function bool2str(&$arr)
 {
-    $arr1 = json_decode(file_get_contents($file1), true) or die('Ошибка Json');
-    $arr2 = json_decode(file_get_contents($file2), true) or die('Ошибка Json');
-    ksort($arr1);
-    ksort($arr2);
-    $resultString = "{\n";
-
-    foreach ($arr1 as $key => $value) {
-
-        if (array_key_exists($key, $arr2)) {
-            if (is_bool($value)) {
-                $value = $value ? 'true' : 'false';
-                $arr2Value = $arr2[$key] ? 'true' : 'false';
-            } else {
-                $arr2Value = $arr2[$key];
-            }
-
-            $resultString .= $arr2Value === $value ? "    {$key}:  {$value} \n" : "  - {$key}:  {$value} \n  + {$key}:  {$arr2Value} \n";
-        } else {
-            $resultString .= "  - {$key}: {$value} \n";
+    array_walk($arr, function (&$val) {
+        if (is_bool($val)) {
+            $val = $val ? 'true' : 'false';
         }
-    }
-
-    foreach ($arr2 as $key => $value) {
-        if (!array_key_exists($key, $arr1)) {
-            if (is_bool($value)) {
-                $value = $value ? 'true' : 'false';
-            }
-            $resultString .= "  + {$key}: {$value} \n";
-        }
-    }
-
-    return $resultString .= "}".PHP_EOL;
+    });
+    return $arr;
 }
 
-//print_r(getDiff('file1.json', 'file2.json'));
+function readFiles($file1, $file2)
+{
+    $string1 = file_get_contents($file1);
+    $string2 = file_get_contents($file2);
+    $arr1 = json_decode($string1, true);
+    $arr2 = json_decode($string2, true);
+    ksort($arr1);
+    ksort($arr2);
+    bool2str($arr1);
+    bool2str($arr2);
+    return [$arr1, $arr2];
+}
+
+function gendiff($file1, $file2)
+{
+    [$arr1, $arr2] = readFiles($file1, $file2);
+    $resultString = "{\n";
+
+    array_walk($arr1, function ($val, $key) use (&$resultString, $arr2) {
+        if (array_key_exists($key, $arr2)) {
+            $resultString .= $arr2[$key] === $val ? "    {$key}:  {$val} \n" :
+                "  - {$key}:  {$val} \n  + {$key}:  {$arr2[$key]} \n";
+        } else {
+            $resultString .= "  - {$key}: {$val} \n";
+        }
+    });
+
+    array_walk($arr2, function ($val, $key) use (&$resultString, $arr1) {
+        if (!array_key_exists($key, $arr1)) {
+            $resultString .= "  + {$key}: {$val} \n";
+        }
+    });
+
+    return $resultString . "}" . PHP_EOL;
+}

@@ -1,0 +1,8 @@
+{
+    firstString:  1 
+  - fourthBool:  false 
+  + fourthBool:  true 
+  - secondInt: 2 
+  - thirdString:  192.168.1.1 
+  + thirdString:  192.168.1.2 
+}

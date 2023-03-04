@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-use function Gendiff\getDiff;
+use function Gendiff\lib\gendiff;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
@@ -25,7 +25,7 @@ $args = Docopt::handle($doc, array('version'=>'Generate diff 1.0'));
 
 if (isset($args->args['<firstFile>']) && isset($args->args['<secondFile>'])) {
   if (file_exists($args->args['<firstFile>']) && file_exists($args->args['<secondFile>'])) {
-    $result = getDiff($args->args['<firstFile>'], $args->args['<secondFile>']);
+    $result = gendiff($args->args['<firstFile>'], $args->args['<secondFile>']);
     print_r($result);
   }
 }
