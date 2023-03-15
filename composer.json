@@ -7,7 +7,7 @@
         "psr-4": {
             "Hexlet\\Code\\": "src/"
         },
-        "files": ["src/lib.php"]
+        "files": ["src/lib.php", "src/Parsers.php"]
     },
     "authors": [
         {

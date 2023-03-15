@@ -1,0 +1,10 @@
+{
+    false: false 
+  - grade: 10 
+    int: 0 
+    jobs: no-jobs 
+  - name: hexlet-check 
+  + name: hexlet-check2 
+  + new: new 
+  + true: true 
+}
