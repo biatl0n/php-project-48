@@ -29,30 +29,17 @@ function getFileType($file)
     }
 }
 
-function readFiles($file1, $file2)
+function readFile($file)
 {
-    (file_exists($file1)) ?: exit("File 1 does not exist" . PHP_EOL);
-    (file_exists($file2)) ?: exit("File 2 does not exist" . PHP_EOL);
-
-    $string1 = file_get_contents($file1);
-    $string2 = file_get_contents($file2);
-    $ftype = getFileType($file1);
-    if ($ftype !== getFileType($file2)) {
-        exit("Formats do not match" . PHP_EOL);
-    }
-
+    (file_exists($file)) ?: exit("File does not exist" . PHP_EOL);
+    $fileContent = file_get_contents($file);
+    $ftype = getFileType($file);
     if ($ftype === 'json') {
-        $arr1 = new ArrayObject(json_decode($string1));
-        $arr2 = new ArrayObject(json_decode($string2));
+        $result = new ArrayObject(json_decode($fileContent));
     } elseif ($ftype === 'yml') {
-        $arr1 = new ArrayObject(Yaml::parse($string1, YAML::PARSE_OBJECT_FOR_MAP));
-        $arr2 = new ArrayObject(Yaml::parse($string2, YAML::PARSE_OBJECT_FOR_MAP));
+        $result = new ArrayObject(Yaml::parse($fileContent, YAML::PARSE_OBJECT_FOR_MAP));
     }
-
-    $arr1->ksort();
-    $arr2->ksort();
-    bool2str($arr1);
-    bool2str($arr2);
-
-    return [$arr1, $arr2];
+    $result->ksort();
+    bool2str($result);
+    return $result;
 }

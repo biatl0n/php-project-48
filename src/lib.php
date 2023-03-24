@@ -2,11 +2,12 @@
 
 namespace Gendiff\Lib;
 
-use function Gendiff\Parsers\readFiles;
+use function Gendiff\Parsers\readFile;
 
 function gendiff($file1, $file2)
 {
-    [$arr1, $arr2] = readFiles($file1, $file2);
+    $arr1 = readFile($file1);
+    $arr2 = readFile($file2);
     $resultString = "{\n";
     foreach ($arr1 as $key => $val) {
         if ($arr2->offsetExists($key)) {

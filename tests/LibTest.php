@@ -4,7 +4,7 @@ namespace Gendiff\Tests;
 
 use PHPUnit\Framework\TestCase;
 use function Gendiff\Lib\gendiff;
-use function Gendiff\Parsers\readFiles;
+use function Gendiff\Parsers\readFile;
 use function Gendiff\Parsers\getFileType;
 
 class LibTest extends TestCase
@@ -41,11 +41,7 @@ class LibTest extends TestCase
     public function testReadFile(): void
     {
         $expectedArr1 = ['false'=>'false', 'grade' => 10, 'int' => 0, 'jobs' => 'no-jobs', 'name' => 'hexlet-check'];
-        $expectedArr2 = ['false' => 'false', 'int' => 0, 'jobs' => 'no-jobs', 'name' => 'hexlet-check2', 'new' => 'new', 'true' => 'true'];
-        
-        [$arr1, $arr2] = readFiles(__DIR__ . "/fixtures/file1_1.yml", __DIR__ . "/fixtures/file1_2.yaml");
-
+        $arr1 = readFile(__DIR__ . "/fixtures/file1_1.yml", __DIR__ . "/fixtures/file1_2.yaml");
         $this->assertEquals($expectedArr1, (array)$arr1);
-        $this->assertEquals($expectedArr2, (array)$arr2);
     }
 }
