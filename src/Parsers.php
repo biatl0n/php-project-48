@@ -2,16 +2,11 @@
 
 namespace Gendiff\Parsers;
 
-use ArrayObject;
 use Symfony\Component\Yaml\Yaml;
 
-function bool2str(&$arr)
+function toString($value)
 {
-    foreach ($arr as $key => $val) {
-        if (is_bool($val)) {
-            $val ? $arr->offsetSet($key, 'true') : $arr->offsetSet($key, 'false');
-        }
-    }
+    return trim(var_export($value, true), "'");
 }
 
 function getFileType($file)
@@ -35,11 +30,9 @@ function readFile($file)
     $fileContent = file_get_contents($file);
     $ftype = getFileType($file);
     if ($ftype === 'json') {
-        $result = new ArrayObject(json_decode($fileContent));
+        $result = json_decode($fileContent);
     } elseif ($ftype === 'yml') {
-        $result = new ArrayObject(Yaml::parse($fileContent, YAML::PARSE_OBJECT_FOR_MAP));
+        $result = Yaml::parse($fileContent, YAML::PARSE_OBJECT_FOR_MAP);
     }
-    $result->ksort();
-    bool2str($result);
     return $result;
 }

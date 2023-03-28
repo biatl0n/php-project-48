@@ -3,24 +3,51 @@
 namespace Gendiff\Lib;
 
 use function Gendiff\Parsers\readFile;
+use function Gendiff\Parsers\toString;
 
 function gendiff($file1, $file2)
 {
-    $arr1 = readFile($file1);
-    $arr2 = readFile($file2);
-    $resultString = "{\n";
-    foreach ($arr1 as $key => $val) {
-        if ($arr2->offsetExists($key)) {
-            $resultString .= $arr2->offsetGet($key) === $val ? "    {$key}: {$val} \n" :
-                "  - {$key}: {$val} \n  + {$key}: {$arr2->offsetGet($key)} \n";
+    $diff = [];
+    $file1Content = readFile($file1);
+    $file2Content = readFile($file2);
+
+    foreach ($file1Content as $key => $val) {
+        $strVal = toString($val);
+        if (isset($file2Content->$key)) {
+            if ($file2Content->$key === $val) {
+                $diff[$key] = ['left' => "{$strVal}", 'right' => "{$strVal}", 'actual' => true];
+            } else {
+                $strVal2 = toString($file2Content->$key);
+                $diff[$key] = ['left' => "{$strVal}", 'right' => "{$strVal2}", 'actual' => 'changed'];
+            }
         } else {
-            $resultString .= "  - {$key}: {$val} \n";
+            $diff[$key] = ['left' => "{$strVal}", 'right' => null, 'actual' => 'removed'];
         }
     }
-    foreach ($arr2 as $key => $val) {
-        if (!$arr1->offsetExists($key)) {
-            $resultString .= "  + {$key}: {$val} \n";
+
+    foreach ($file2Content as $key => $val) {
+        $strVal = toString($val);
+        if (!isset($file1Content->$key)) {
+            $diff[$key] = ['left' => null, 'right' => "{$strVal}", 'actual' => 'new'];
         }
     }
-    return $resultString . "}" . PHP_EOL;
+
+    ksort($diff);
+    $result = '';
+    foreach ($diff as $key => $val) {
+        $indent = '    ';
+        $indentPlus = '  + ';
+        $indentMinus = '  - ';
+        if ($val['actual'] === true) {
+            $result .= "{$indent}{$key}: {$val['left']}\n";
+        } elseif ($val['actual'] === 'changed') {
+            $result .= "{$indentMinus}{$key}: {$val['left']}\n";
+            $result .= "{$indentPlus}{$key}: {$val['right']}\n";
+        } elseif ($val['actual'] === 'removed') {
+            $result .= "{$indentMinus}{$key}: {$val['left']}\n";
+        } elseif ($val['actual'] === 'new') {
+            $result .= "{$indentPlus}{$key}: {$val['right']}\n";
+        }
+    }
+    return "{\n{$result}}" . PHP_EOL;
 }
