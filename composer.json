@@ -24,7 +24,7 @@
     ],
     "require": {
         "docopt/docopt": "^1.0",
-        "symfony/yaml": "^6.2",
+        "symfony/yaml": "^5.3",
         "lstrojny/functional-php": "^1.17"
     },
     "require-dev": {
