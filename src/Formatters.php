@@ -1,10 +1,10 @@
 <?php
 
-namespace Gendiff\Formatters;
+namespace Differ\Formatters;
 
-use function Gendiff\Formatters\Plain\genPlain;
-use function Gendiff\Formatters\Stylish\genStylish;
-use function Gendiff\Formatters\Json\genJson;
+use function Differ\Formatters\Plain\genPlain;
+use function Differ\Formatters\Stylish\genStylish;
+use function Differ\Formatters\Json\genJson;
 
 function genFormattedString($diff, $format)
 {

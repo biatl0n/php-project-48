@@ -1,9 +1,9 @@
 <?php
 
-namespace Gendiff\Differ;
+namespace Differ\Differ;
 
-use function Gendiff\Parsers\parse;
-use function Gendiff\Formatters\genFormattedString;
+use function Differ\Parsers\parse;
+use function Differ\Formatters\genFormattedString;
 use function Functional\sort;
 
 function toString($value)
