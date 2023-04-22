@@ -17,7 +17,7 @@ function genPlain($diff)
             ] = $node;
 
             switch ($status) {
-                case 'nested';
+                case 'nested':
                     $path .= "{$key}.";
                     return ($iter($children, $path));
                 case 'added':
