@@ -2,12 +2,9 @@
 
 namespace Gendiff\Differ;
 
-use stdClass;
-
 use function Gendiff\Parsers\parse;
+use function Gendiff\Formatters\genFormattedString;
 use function Functional\sort;
-use function Functional\flatten;
-use function Gendiff\Formatters\Stylish\genFormattedString;
 
 function toString($value)
 {
@@ -28,16 +25,8 @@ function genDiff(string $file1Path, string $file2Path, $format = 'stylish')
 {
     $file1Content = readFile($file1Path);
     $file2Content = readFile($file2Path);
-
     $diff = makeDiff($file1Content, $file2Content);
-    switch ($format) {
-        case 'stylish':
-            return genFormattedString($diff);
-        case 'plain':
-            return "In development" . PHP_EOL;
-        default:
-            return "Unknown format" . PHP_EOL;
-    }
+    return genFormattedString($diff, $format);
 }
 
 function makeDiff($file1Content, $file2Content)

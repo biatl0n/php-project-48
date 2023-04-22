@@ -4,7 +4,7 @@ namespace Gendiff\Formatters\Stylish;
 
 use function Functional\flatten;
 
-function genFormattedString($diff)
+function genStylish($diff)
 {
     $iter = function ($diff, $depth) use (&$iter) {
         return array_map(function ($node) use ($depth, $iter) {
