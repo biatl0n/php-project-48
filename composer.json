@@ -7,7 +7,11 @@
         "psr-4": {
             "Hexlet\\Code\\": "src/"
         },
-        "files": ["src/lib.php", "src/Parsers.php"]
+        "files": [
+            "src/Differ.php",
+            "src/Parsers.php",
+            "src/Formatters/Stylish.php"
+        ]
     },
     "authors": [
         {
@@ -17,7 +21,8 @@
     ],
     "require": {
         "docopt/docopt": "^1.0",
-        "symfony/yaml": "^6.2"
+        "symfony/yaml": "^6.2",
+        "lstrojny/functional-php": "^1.17"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.7",

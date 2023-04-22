@@ -1,6 +1,0 @@
-name: hexlet-check2
-jobs: no-jobs
-int: 0
-'false': false
-'true': true
-new: new
