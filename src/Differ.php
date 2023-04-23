@@ -6,15 +6,15 @@ use function Differ\Parsers\parse;
 use function Differ\Formatters\genFormattedString;
 use function Functional\sort;
 
-function readFile(string $file): object
+function readFile(string $filePath): object
 {
-    if (!file_exists($file)) {
-        throw new \Exception("The file {$file} does not exists.");
-    } else {
-        $fileType = pathinfo($file, PATHINFO_EXTENSION);
-        $fileContent = file_get_contents($file);
-        return parse($fileContent, $fileType);
+    if (!file_exists($filePath)) {
+        throw new \Exception("The file {$filePath} does not exists.");
     }
+
+    $fileType = pathinfo($filePath, PATHINFO_EXTENSION);
+    $fileContent = (string) file_get_contents($filePath);
+    return parse($fileContent, $fileType);
 }
 
 function genDiff(string $file1Path, string $file2Path, string $format = 'stylish'): string
