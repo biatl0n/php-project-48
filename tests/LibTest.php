@@ -34,6 +34,6 @@ class LibTest extends TestCase
 
     public function testParse(): void
     {
-        $this->assertEquals('Not supported format', parse(__DIR__ . "/fixtures/result2.txt"));
+        $this->assertEquals('Not supported format', parse(__DIR__ . "/fixtures/result2.txt", "txt"));
     }
 }

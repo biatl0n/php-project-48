@@ -9,10 +9,11 @@ use function Functional\sort;
 function readFile(string $file): object
 {
     if (!file_exists($file)) {
-        print_r("File {$file} does not exist" . PHP_EOL);
-        exit;
+        throw new \Exception("The file {$file} does not exists.");
     } else {
-        return parse($file);
+        $fileType = pathinfo($file, PATHINFO_EXTENSION);
+        $fileContent = file_get_contents($file);
+        return parse($fileContent, $fileType);
     }
 }
 
@@ -46,7 +47,7 @@ function makeDiff(object $file1Content, object $file2Content): array
     return $diffArray;
 }
 
-function makeNode(string $key, string $status, $file1Value, $file2Value, $children = null): array
+function makeNode(string $key, string $status, mixed $file1Value, mixed $file2Value, mixed $children = null): array
 {
     return [
         'key' => $key,
