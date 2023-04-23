@@ -3,12 +3,13 @@
 namespace Differ\Tests;
 
 use PHPUnit\Framework\TestCase;
+
 use function Differ\Differ\genDiff;
 use function Differ\Parsers\parse;
 
 class LibTest extends TestCase
 {
-    public function testGendiff(): void
+    public function testGenDiff(): void
     {
         $expectedString1 = file_get_contents(__DIR__ . "/fixtures/result1.txt");
         $expectedString2 = file_get_contents(__DIR__ . "/fixtures/result2.txt");
