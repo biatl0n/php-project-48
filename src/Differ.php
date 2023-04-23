@@ -6,12 +6,7 @@ use function Differ\Parsers\parse;
 use function Differ\Formatters\genFormattedString;
 use function Functional\sort;
 
-function toString($value)
-{
-    return trim(var_export($value, true), "'");
-}
-
-function readFile($file)
+function readFile(string $file): object
 {
     if (!file_exists($file)) {
         print_r("File {$file} does not exist" . PHP_EOL);
@@ -21,7 +16,7 @@ function readFile($file)
     }
 }
 
-function genDiff(string $file1Path, string $file2Path, $format = 'stylish')
+function genDiff(string $file1Path, string $file2Path, string $format = 'stylish'): string
 {
     $file1Content = readFile($file1Path);
     $file2Content = readFile($file2Path);
@@ -29,14 +24,14 @@ function genDiff(string $file1Path, string $file2Path, $format = 'stylish')
     return genFormattedString($diff, $format);
 }
 
-function makeDiff($file1Content, $file2Content)
+function makeDiff(object $file1Content, object $file2Content): array
 {
     $file1Keys = array_keys(get_object_vars($file1Content));
     $file2Keys = array_keys(get_object_vars($file2Content));
     $uniqKeys = array_unique(array_merge($file1Keys, $file2Keys));
     $sortedUniqKeys = sort($uniqKeys, fn($left, $right) => strcmp($left, $right));
 
-    $diffArray = array_map(function ($key) use ($file1Content, $file2Content) {
+    $diffArray = array_map(function ($key) use ($file1Content, $file2Content): array {
         if (!property_exists($file1Content, $key)) {
             return makeNode($key, 'added', null, $file2Content->$key);
         } elseif (!property_exists($file2Content, $key)) {

@@ -4,7 +4,7 @@ namespace Differ\Formatters\Stylish;
 
 use function Functional\flatten;
 
-function genStylish($diff)
+function genStylish(array $diff)
 {
     $iter = function ($diff, $depth) use (&$iter) {
         return array_map(function ($node) use ($depth, $iter) {
@@ -43,12 +43,12 @@ function genStylish($diff)
 }
 
 
-function buildIndent($depth): string
+function buildIndent(int $depth): string
 {
     return str_repeat(" ", 4 * $depth);
 }
 
-function buildValue($value, $depth)
+function buildValue(mixed $value, int $depth)
 {
     if (is_bool($value) || is_null($value)) {
         return strtolower(trim(var_export($value, true), "'"));

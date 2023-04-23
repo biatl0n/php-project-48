@@ -4,9 +4,9 @@ namespace Differ\Formatters\Plain;
 
 use function Functional\flatten;
 
-function genPlain($diff)
+function genPlain(array $diff)
 {
-    $iter = function ($diff, $path = '') use (&$iter) {
+    $iter = function ($diff, $path = '') use (&$iter): mixed {
         return array_map(function ($node) use ($iter, $path) {
             [
                 'key' => $key,
@@ -39,7 +39,7 @@ function genPlain($diff)
     return "$string";
 }
 
-function buildValue($value)
+function buildValue(mixed $value)
 {
     if (is_bool($value) || is_null($value)) {
         return strtolower(trim(var_export($value, true), "'"));

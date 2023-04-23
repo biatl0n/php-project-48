@@ -6,7 +6,7 @@ use function Differ\Formatters\Plain\genPlain;
 use function Differ\Formatters\Stylish\genStylish;
 use function Differ\Formatters\Json\genJson;
 
-function genFormattedString($diff, $format)
+function genFormattedString(array $diff, string $format)
 {
     switch ($format) {
         case 'stylish':
