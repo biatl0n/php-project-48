@@ -39,7 +39,7 @@ function genStylish($diff)
         }, $diff);
     };
     $string = implode("\n", flatten($iter($diff, 1)));
-    return "{\n$string\n}" . PHP_EOL;
+    return "{\n$string\n}";
 }
 
 
