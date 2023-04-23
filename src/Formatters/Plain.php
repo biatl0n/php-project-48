@@ -36,7 +36,7 @@ function genPlain($diff)
         }, $diff);
     };
     $string = implode("\n", flatten($iter($diff)));
-    return "$string" . PHP_EOL;
+    return "$string";
 }
 
 function buildValue($value)
