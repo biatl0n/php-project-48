@@ -6,7 +6,7 @@ use function Functional\flatten;
 
 function genPlain(array $diff)
 {
-    $iter = function ($diff, $path = '') use (&$iter): mixed {
+    $iter = function ($diff, $path = []) use (&$iter): mixed {
         return array_map(function ($node) use ($iter, $path) {
             [
                 'key' => $key,
@@ -16,22 +16,23 @@ function genPlain(array $diff)
                 'children' => $children
             ] = $node;
 
+            $propertyPath = implode('.', [...$path, $key]);
+
             switch ($status) {
                 case 'nested':
-                    $path .= "{$key}.";
-                    return ($iter($children, $path));
+                    return ($iter($children, [...$path, $key]));
                 case 'added':
                     $value = buildValue($file2Value);
-                    return "Property '{$path}{$key}' was added with value: {$value}";
+                    return "Property '{$propertyPath}' was added with value: {$value}";
                 case 'removed':
                     $value = buildValue($file1Value);
-                    return "Property '{$path}{$key}' was removed";
+                    return "Property '{$propertyPath}' was removed";
                 case 'actual':
                     return [];
                 case 'changed':
                     $value1 = is_object($file1Value) ? "[complex value]" : buildValue($file1Value);
                     $value2 = is_object($file2Value) ? "[complex value]" : buildValue($file2Value);
-                    return "Property '{$path}{$key}' was updated. From {$value1} to {$value2}";
+                    return "Property '{$propertyPath}' was updated. From {$value1} to {$value2}";
             }
         }, $diff);
     };
