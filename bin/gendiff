@@ -22,6 +22,12 @@ Options:
   -v --version                  Show version
   --format <fmt>                Report format [default: stylish]
 
+  Supported report formats:
+    --format <fmt>
+      stylish                   Shows changes in files by marking them with "+/-" characters.
+      plain                     Shows changes in files in plain text format
+      json                      Shows changes in files in json format
+
 DOC;
 
 $args = Docopt::handle($doc, array('version'=>'Generate diff 1.0'));
